@@ -1,3 +1,3 @@
-set VERSION=5
-docker build -t corts/aspnet45-base:%VERSION% .
-docker tag corts/aspnet45-base:%VERSION% corts/aspnet45-base:latest
+set VERSION=2
+docker build -t spring2/aspnet45-base:%VERSION% .
+docker tag spring2/aspnet45-base:%VERSION% spring2/aspnet45-base:latest

@@ -1,4 +1,14 @@
-FROM microsoft/aspnet
+FROM microsoft/windowsservercore
+
+RUN powershell -Command Add-WindowsFeature Web-Server
+
+ADD ServiceMonitor.exe /ServiceMonitor.exe
+
+ENTRYPOINT ["C:\\ServiceMonitor.exe", "w3svc"]
+
+RUN powershell -Command Add-WindowsFeature NET-Framework-45-ASPNET; \
+    powershell -Command Add-WindowsFeature Web-Asp-Net45; \
+    powershell -Command Remove-Item -Recurse C:\inetpub\wwwroot\*
 
 ##
 # TODO:
@@ -96,7 +106,7 @@ RUN appcmd.exe set app "www/" /applicationPool:"www"
 COPY index.html c:/www
 COPY deploy-service.cmd c:/
 COPY download-latest-package.ps1 c:/
-
+COPY FixDNSEntries.ps1 /
 
 EXPOSE 1025
 
