@@ -1,7 +1,9 @@
 # this script is to deal with the fact that windows containers always takes the hosts vEthernet ip as their first DNS entry regardless of how docker is configured to run
 # https://github.com/docker/docker/issues/30260
 
-$if = get-netipinterface -AddressFamily IPv4 -ConnectionState Connected
+get-netipinterface -AddressFamily IPv4 -ConnectionState Connected
+
+$if = get-netipinterface -AddressFamily IPv4 -ConnectionState Connected | where {$_.InterfaceAlias.Contains("Ethernet")}
 $ifIndex = $if[0].ifIndex
 #$ifIndex
 
@@ -25,3 +27,5 @@ $new = $servers | where {$dg -NotContains $_}
 Set-DNSClientServerAddress -interfaceIndex $ifIndex -ServerAddresses($new)
 
 Get-DnsClientServerAddress -AddressFamily IPv4  -InterfaceIndex $ifindex
+
+Set-DnsClientGlobalSetting -SuffixSearchList @("service.consul")
