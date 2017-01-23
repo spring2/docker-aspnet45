@@ -45,7 +45,7 @@ RUN mkdir C:\www; \
 	appcmd.exe set app "www/" /applicationPool:"www";
 COPY index.html c:/www
 	
-COPY FixDNSEntries.ps1 startup.ps1 ServiceMonitor.exe /
+COPY init.ps1 startup.ps1 ServiceMonitor.exe /
 
 EXPOSE 80
 CMD c:/startup.ps1
